@@ -16,30 +16,34 @@ if (photo) {
   }
 }
 
-// Phone menu: the "Menu" button opens and closes the list of sections.
-// (The button only appears on small screens — see style.css, MOBILE.)
-const nav = document.querySelector(".site-nav");
-const menuButton = document.querySelector(".menu-toggle");
+// Phone menu: the menu itself works with CSS only (see style.css, MOBILE).
+// This just closes it after you pick a section or press Escape.
+const menuCheck = document.getElementById("menu-check");
 
-if (nav && menuButton) {
-  nav.classList.add("has-menu");
-
-  const setOpen = (open) => {
-    nav.classList.toggle("open", open);
-    menuButton.setAttribute("aria-expanded", String(open));
-  };
-
-  menuButton.addEventListener("click", () => {
-    setOpen(!nav.classList.contains("open"));
+if (menuCheck) {
+  document.querySelectorAll("#nav-links a").forEach((link) => {
+    link.addEventListener("click", () => { menuCheck.checked = false; });
   });
 
-  // Close the menu after choosing a section
-  nav.querySelectorAll("#nav-links a").forEach((link) => {
-    link.addEventListener("click", () => setOpen(false));
-  });
-
-  // Close the menu with the Escape key
   document.addEventListener("keydown", (event) => {
-    if (event.key === "Escape") setOpen(false);
+    if (event.key === "Escape") menuCheck.checked = false;
   });
 }
+
+// "copy" button next to the email: copies the address and briefly says "copied!".
+document.querySelectorAll(".copy-btn").forEach((button) => {
+  button.addEventListener("click", async () => {
+    try {
+      await navigator.clipboard.writeText(button.dataset.copy);
+      button.textContent = "copied!";
+      button.classList.add("copied");
+    } catch {
+      // Clipboard not available (e.g. opened as a local file in some browsers)
+      button.textContent = "couldn't copy";
+    }
+    setTimeout(() => {
+      button.textContent = "copy";
+      button.classList.remove("copied");
+    }, 2000);
+  });
+});

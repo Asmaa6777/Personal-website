@@ -25,11 +25,14 @@
     <div class="wrap">
       <a href="#about" class="nav-name">Asmaa Farouq</a>
 
-      <!-- Menu button: only shown on phones (see style.css, MOBILE) -->
-      <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="nav-links">
+      <!-- Phone menu (see style.css, MOBILE). On phones the bar is hidden and
+           only this "Menu" button shows; tapping it opens the full navigation.
+           It works with plain CSS: the hidden checkbox remembers open/closed. -->
+      <input type="checkbox" id="menu-check" class="menu-check">
+      <label for="menu-check" class="menu-toggle">
         <span class="menu-icon" aria-hidden="true"><span></span><span></span><span></span></span>
         Menu
-      </button>
+      </label>
 
       <ul id="nav-links">
         <li><a href="#about"><span class="sym">§1</span> About</a></li>
@@ -233,10 +236,10 @@
           <div class="ml-head">
             <h4>Zindi GeoAI Aquaculture Pond Identification</h4>
           </div>
-          <p class="ml-meta">Zindi · <span class="todo">[year]</span></p>
+          <p class="ml-meta">Zindi · <span class="todo">[2026]</span></p>
           <p>Classifying aquaculture ponds from satellite imagery: EDA, a LightGBM model, SHAP to understand which features mattered, and Kedro to keep the pipeline organised.</p>
           <div class="ml-foot">
-            <ul class="tags"><li>LightGBM</li><li>SHAP</li><li>Kedro</li></ul>
+            <ul class="tags"><li>LightGBM</li>
             <a class="draw-link" href="[GitHub link]">GitHub →</a>
           </div>
         </article>
@@ -366,12 +369,16 @@
       <h2>Let's talk</h2>
       <p>If you'd like to chat about a project, an internship, or anything on this page, I'd be glad to hear from you.</p>
 
+      <!-- Contact links, all on one line.
+           The email is a normal mailto link; the small "copy" button next to it
+           copies the address (see script.js). Keep data-copy the same as the email. -->
       <ul class="contact">
-        <!-- Replace [your email] in BOTH places on the next line -->
-        <li><span class="label">Email</span> <a class="draw-link" href="mailto:[asmaafarouq649@gmail.com]">asmaafarouq649@gmail.com</a></li>
-        <!-- Replace [username] in BOTH places on the next line -->
-        <li><span class="label">GitHub</span> <a class="draw-link" href="https://github.com/Asmaa6777">Asmaa6777</a></li>
-        <li><span class="label">LinkedIn</span> <a class="draw-link" href="https://linkedin.com/in/asmaa-farouq-b41733264">linkedin</a></li>
+        <li>
+          <a class="draw-link" href="mailto:asmaafarouq649@gmail.com">asmaafarouq649@gmail.com</a>
+          <button class="copy-btn" type="button" data-copy="asmaafarouq649@gmail.com" aria-label="Copy email address">copy</button>
+        </li>
+        <li><a class="draw-link" href="https://github.com/Asmaa6777">GitHub</a></li>
+        <li><a class="draw-link" href="https://linkedin.com/in/asmaa-farouq-b41733264">LinkedIn</a></li>
       </ul>
 
       <p class="copyright">&copy; 2026 Asmaa Farouq</p>

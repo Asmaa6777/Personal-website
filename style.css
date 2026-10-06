@@ -151,22 +151,32 @@ img { max-width: 100%; display: block; }
 .site-nav .sym { color: var(--accent); margin-right: 2px; }
 
 /* Menu button — hidden on wide screens, shown on phones */
+.menu-check {
+  /* The checkbox itself is invisible; its label is the button */
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
 .menu-toggle {
   display: none;
   align-items: center;
   gap: 8px;
   padding: 6px 12px;
   border: 1.5px solid var(--ink);
-  background: transparent;
+  background: var(--paper);
   color: var(--ink);
-  font-family: var(--font-body);
   font-size: 0.95rem;
   cursor: pointer;
+  user-select: none;
 }
 .menu-toggle:hover,
-.menu-toggle[aria-expanded="true"] {
+.menu-check:checked + .menu-toggle {
   background: var(--ink);
   color: var(--paper);
+}
+.menu-check:focus-visible + .menu-toggle {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
 }
 
 /* Three short lines drawn with CSS (no icon font needed) */
@@ -487,16 +497,44 @@ img { max-width: 100%; display: block; }
   font-size: 1.6rem;
   margin-bottom: 18px;
 }
+/* Email · GitHub · LinkedIn on one line (wraps only on very small screens) */
 .contact {
   list-style: none;
   margin: 0 0 28px;
   padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 6px 0;
 }
-.contact li { margin-bottom: 6px; }
-.contact .label {
-  display: inline-block;
-  width: 90px;
+.contact li { white-space: nowrap; }
+/* The small dot between items */
+.contact li + li::before {
+  content: "·";
   color: var(--ink-soft);
+  margin: 0 12px;
+}
+
+/* Small "copy" button next to the email */
+.copy-btn {
+  margin-left: 8px;
+  padding: 0 8px;
+  border: 1px solid var(--rule);
+  background: var(--paper-light);
+  color: var(--ink-soft);
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+  cursor: pointer;
+  vertical-align: 2px;
+}
+.copy-btn:hover { border-color: var(--ink); color: var(--ink); }
+/* After copying, the button says "copied!" in red pen */
+.copy-btn.copied {
+  border-color: transparent;
+  background: none;
+  color: var(--accent);
+  font-family: var(--font-hand);
+  font-size: 1.15rem;
 }
 .signoff {
   font-family: var(--font-hand);
@@ -520,28 +558,56 @@ img { max-width: 100%; display: block; }
 @media (max-width: 820px) {
   body { font-size: 17px; }
 
-  /* Navigation becomes a menu button with a drop-down list.
-     The .has-menu class is added by script.js, so without
-     JavaScript the links simply stay visible. */
-  .site-nav .wrap { align-items: center; }
-  .site-nav.has-menu .menu-toggle { display: inline-flex; }
-  .site-nav.has-menu ul {
-    display: none;
+  /* ---- Navigation on phones ----
+     The bar disappears; only a small "Menu" button stays in the
+     top-right corner (it follows you as you scroll). Tapping it
+     opens a panel with your name and every section link. */
+  .site-nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 10;
+    border-bottom: none;
+    background: transparent;
+    pointer-events: none;           /* page stays clickable around the button */
+  }
+  .site-nav .wrap {
+    align-items: center;
+    padding-top: 12px;
+    padding-bottom: 12px;
+  }
+  .menu-toggle {
+    display: inline-flex;
+    margin-left: auto;
+    pointer-events: auto;
+  }
+  .nav-name,
+  .site-nav ul { display: none; }
+
+  /* Menu open: the panel appears */
+  .site-nav:has(.menu-check:checked) {
+    background: var(--paper);
+    border-bottom: 1px solid var(--rule);
+    box-shadow: 0 4px 0 rgba(31, 42, 68, 0.06);
+    pointer-events: auto;
+  }
+  .site-nav:has(.menu-check:checked) .nav-name { display: block; }
+  .menu-check:checked ~ ul {
+    display: flex;
     width: 100%;
     flex-direction: column;
     gap: 0;
     font-size: 1rem;
     border-top: 1px solid var(--rule);
-    margin-top: 6px;
   }
-  .site-nav.has-menu.open ul { display: flex; }
-  .site-nav.has-menu ul a {
+  .site-nav ul a {
     display: block;
     padding: 10px 2px;
     border-bottom: 1px dashed var(--rule);
     text-decoration: none;
   }
-  .site-nav.has-menu ul li:last-child a { border-bottom: none; }
+  .site-nav ul li:last-child a { border-bottom: none; }
 
   .page {
     grid-template-columns: 1fr;
@@ -563,7 +629,6 @@ img { max-width: 100%; display: block; }
   .toolbox { grid-template-columns: 1fr; gap: 2px; }
   .toolbox dd { margin-bottom: 12px; }
 
-  .contact .label { width: auto; margin-right: 6px; }
 }
 
 /* Respect people who turn off animations */
