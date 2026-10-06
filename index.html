@@ -24,7 +24,14 @@
   <nav class="site-nav" aria-label="Sections">
     <div class="wrap">
       <a href="#about" class="nav-name">Asmaa Farouq</a>
-      <ul>
+
+      <!-- Menu button: only shown on phones (see style.css, MOBILE) -->
+      <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="nav-links">
+        <span class="menu-icon" aria-hidden="true"><span></span><span></span><span></span></span>
+        Menu
+      </button>
+
+      <ul id="nav-links">
         <li><a href="#about"><span class="sym">§1</span> About</a></li>
         <li><a href="#now"><span class="sym">§2</span> Now</a></li>
         <li><a href="#software"><span class="sym">§3</span> Software</a></li>

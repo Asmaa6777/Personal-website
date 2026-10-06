@@ -15,3 +15,31 @@ if (photo) {
     photo.addEventListener("error", removePhoto);
   }
 }
+
+// Phone menu: the "Menu" button opens and closes the list of sections.
+// (The button only appears on small screens — see style.css, MOBILE.)
+const nav = document.querySelector(".site-nav");
+const menuButton = document.querySelector(".menu-toggle");
+
+if (nav && menuButton) {
+  nav.classList.add("has-menu");
+
+  const setOpen = (open) => {
+    nav.classList.toggle("open", open);
+    menuButton.setAttribute("aria-expanded", String(open));
+  };
+
+  menuButton.addEventListener("click", () => {
+    setOpen(!nav.classList.contains("open"));
+  });
+
+  // Close the menu after choosing a section
+  nav.querySelectorAll("#nav-links a").forEach((link) => {
+    link.addEventListener("click", () => setOpen(false));
+  });
+
+  // Close the menu with the Escape key
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape") setOpen(false);
+  });
+}
